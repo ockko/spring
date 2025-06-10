@@ -16,7 +16,11 @@ public class Person2 {
     // 싱글톤중에서 자동으로 Parrot2의 클래스로 만들어진 것 있으면 주입해줘
     // @Autowired
     // private final Parrot2 parrot; // 생성자로 주입한 것은 final을 써서 처음에 주입한 parrot을 계속 사용할 수 있는 안정성을 확보!
-    // 불변성을 확보 가능
+
+    // 생성자 주입의 장점 (Spring 팀에서 권장)
+    // 1. final을 통해 불변성을 확보 가능
+    // 2. 의존성 보장가능 (순환참조 문제 해결)
+    // 3. 코드 가독성 향상 (해당객체가 어떤 의존성을 가진지 명확히 알 수 있음)
 
     private Parrot2 parrot;
 
