@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>${dto}</h1>
+<h1>${sampleDTO}</h1>
 <h1>${page}</h1>
 </body>
 </html>
