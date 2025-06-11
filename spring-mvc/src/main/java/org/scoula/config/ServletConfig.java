@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 * 웹 요청 처리, 정적 자원 매핑, 뷰 리졸버 설정 등등..
 * */
 @EnableWebMvc // -> Spring Web MVC를 사용하겠다는 선언 (= 디스패쳐서블릿을 동작하겠다)
-@ComponentScan(basePackages = {"org.scoula.controller"}) // Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
+@ComponentScan(basePackages = {"org.scoula"}) // Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
 public class ServletConfig implements WebMvcConfigurer {
 
     // 프론트파일(css, js, img)의 위치를 지정해주는 함수

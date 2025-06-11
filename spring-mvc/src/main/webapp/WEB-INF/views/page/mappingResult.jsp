@@ -4,6 +4,7 @@
     <title>Title</title>
 </head>
 <body>
+<h1>mappingResult.jsp</h1>
 <h1>${message}</h1>
 </body>
 </html>
