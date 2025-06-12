@@ -31,11 +31,9 @@ public class SampleController {
     }
 
     @GetMapping("/ex04")
-    public String ex04(SampleDTO dto, @ModelAttribute("page") int page, Model model) {
-        log.info("dto: " + dto);
+    public String ex04(SampleDTO sampleDTO, @ModelAttribute("page") int page) {
+        log.info("sampleDTO: " + sampleDTO);
         log.info("page: " + page);
-        model.addAttribute("dto", dto);
-        model.addAttribute("page", page);
         return "sample/ex04";
     }
 
@@ -49,14 +47,12 @@ public class SampleController {
         log.info("/ex06........");
         ra.addAttribute("name", "AAA");
         ra.addAttribute("age", 10);
-        return "redirect:ex06-2";
+        return "redirect:/sample/ex06-2";
     }
 
     @GetMapping("/ex06-2")
-    public String ex06_2(Model model) {
+    public String ex06_2() {
         log.info("/ex06-2........");
-        model.addAttribute("name", model.getAttribute("name"));
-        model.addAttribute("age", model.getAttribute("age"));
-        return "ex06-2";
+        return "/sample/ex06-2";
     }
 }
