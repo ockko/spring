@@ -1,4 +1,4 @@
-package org.scoula.domain;
+package org.scoula.beans;
 
 import org.springframework.stereotype.Component;
 
@@ -15,5 +15,12 @@ public class Parrot {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Parrot{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
