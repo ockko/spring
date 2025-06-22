@@ -46,13 +46,25 @@ dependencies {
 //    implementation 'log4j:log4j:1.2.17'
 
     // Log4j2
-    implementation 'org.apache.logging.log4j2:log4j2-api:2.18.0'
-    implementation 'org.apache.logging.log4j2:log4j2-core:2.18.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.18.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.18.0'
     implementation 'org.slf4j:slf4j-api:2.0.13'
     // implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.18.0'
-    // xml 내 한글처리
+
+    // xml내 한글 처리
     implementation 'xerces:xercesImpl:2.12.2'
-    
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // Jackson - Json 처리
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+
+    // 테스트
+    testImplementation "org.springframework:spring-test:${springVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
