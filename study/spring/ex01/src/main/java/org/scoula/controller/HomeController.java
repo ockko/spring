@@ -14,6 +14,7 @@ public class HomeController {
 
     @GetMapping("/") // "/" 주소로 get 요청이 들어오면
     public String home() {
+        // 스프링이 핸들러매퍼에 주소와 방식에 따른 어떤 컨트롤러의 메서드를 불러야 할지를 자동으로 등록시켜줌.
         System.out.println("HomeController =====");
         return "index"; // view 파일 이름 프론트컨트롤러에게 리턴함.
 
