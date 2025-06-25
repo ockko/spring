@@ -17,18 +17,17 @@ import org.springframework.web.servlet.view.JstlView;
         "org.scoula.controller",
         "org.scoula.ex03.controller",
         "org.scoula.exception"
-})	// Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
+})    // Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
 public class ServletConfig implements WebMvcConfigurer {
 
-    //	Servlet 3.0 파일 업로드 사용시
-
+    // Servlet 3.0 파일 업로드 사용시 - MultipartResolver 빈 등록
     @Bean
     public MultipartResolver multipartResolver() {
         StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
         return resolver;
     }
 
-    //프론트파일(css, js, img)의 위치를 지정해주는 함수
+    // 프론트파일(css, js, img)의 위치를 지정해주는 함수
     // /resources/img/a.png라고 요청이 들어오면
     // /resources/밑에서 찾겠다라는 설정
     // <img src="/resources/img/a.png">

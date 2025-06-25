@@ -1,11 +1,12 @@
 package org.scoula.ex03.controller;
 
 import lombok.extern.log4j.Log4j2;
+import org.scoula.ex03.dto.SampleDTO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 
 @Controller // 싱글톤 + 클래스 안에서 설정한 주소->함수 매핑을 핸들러매퍼에게 등록시켜줌.
 @RequestMapping("/sample") // 해당 도메인을 요청할 때는 앞에다 sample이라고 붙이자!
@@ -53,5 +54,43 @@ public class SampleController {
         System.out.println("name: " + name);
         System.out.println("age: " + (age2 + 1));
         return "ex01";
+    }
+
+    @GetMapping("/ex011")
+    // 전달되는 데이터가 많은 경우 가방역할의 변수에 넣어달라고 요청하면 됨.
+    // dto에 있는 파라메터와 동일한 set 메서드를 불러서 가방에 넣어줌.
+    // 컨트롤러 함수 호출시 입력 파라메터로 넣은 dto는 자동으로 view까지 전달됨.
+    // Model의 속성으로 추가가 됨.
+    // 주의점!! 변수명을 첫글자만 클래스이름과 다르게 소문자로 만들어야 함.
+    // model.addAttribute("sampleDTO", sampleDTO);
+    public String ex011(SampleDTO sampleDTO, @ModelAttribute("day") String day) {
+        System.out.println("name: " + sampleDTO.getName());
+        System.out.println("age: " + (sampleDTO.getAge() + 1));
+        return "ex011";
+    }
+
+    // json으로 응답, views 아래 jsp를 사용하지 않는 경우
+    @GetMapping("/ex07")
+    @ResponseBody
+    public SampleDTO ex07() {
+        log.info("/ex07........");
+        SampleDTO dto = new SampleDTO();
+        dto.setAge(10);
+        dto.setName("홍길동");
+        return dto;
+    }
+
+    @GetMapping("/exUpload")
+    public void exUpload() {
+        log.info("/exUpload..........");
+    }
+
+    @PostMapping("/exUploadPost")
+    public void exUploadPost(ArrayList<MultipartFile> files) {
+        for (MultipartFile file : files) {
+            log.info("-----------------------------------");
+            log.info("name:" + file.getOriginalFilename());
+            log.info("size:" + file.getSize());
+        }
     }
 }
