@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller // 싱글톤 + 클래스 안에서 설정한 주소->함수 매핑을 핸들러매퍼에게 등록시켜줌.
 @RequestMapping("/sample") // 해당 도메인을 요청할 때는 앞에다 sample이라고 붙이자!
@@ -32,7 +33,25 @@ public class SampleController {
     public void basic() {
         log.info("/basic ==============");
         // 스프링은 컨트롤러로 오면 그 다음은 무조건 jsp 파일을 호출하는 흐름임.
-        // forward라고 함. ==> 결과를 넣는 jsp 페이지가 필요하다!
-        // redirect 해서 view로 안갈수도 있음.
+        // forward라고 함. ==> 결과를 넣는 jsp 페이지가 필요할 때!
+        // redirect 해서 view로 안갈수도 있음. ==> 다른 페이지로 전환
+    }
+
+    @GetMapping("/ex01")
+    public String ex01(String name, @RequestParam("age") int age2) {
+        // @RequestParam: 파라메터와 다른 변수에 넣고 싶은 경우
+        // @RequestParam("파라메터이름") int 넣고싶은변수이름
+
+        // 원래 http로 전달받은 데이터는 모두 String
+        // int age라고 하는 경우 이것을 숫자로 변경해주는 작업도 스프링이 해준다.
+
+//        String name = request.getParameter("name");
+//        int age = Integer.parseInt(request.getParameter("age"));
+        // ==> 개발 성능이 좋아짐.
+        log.info("/ex01 ===================");
+
+        System.out.println("name: " + name);
+        System.out.println("age: " + (age2 + 1));
+        return "ex01";
     }
 }
