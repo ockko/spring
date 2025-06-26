@@ -9,7 +9,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
-@ComponentScan(basePackages = {"org.scoula.controller"})
+@ComponentScan(basePackages = {
+        "org.scoula.controller",
+        "org.scoula.exception"
+})
 public class ServletConfig implements WebMvcConfigurer {
 
     // 프론트파일(css, js, img)의 위치를 지정해주는 함수
