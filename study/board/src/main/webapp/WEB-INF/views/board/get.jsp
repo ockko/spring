@@ -1,9 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-get
-</body>
-</html>
+<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%@ include file="../layouts/header.jsp" %>
+<h1>get 페이지 입니다.</h1>
+<%@ include file="../layouts/footer.jsp" %>
