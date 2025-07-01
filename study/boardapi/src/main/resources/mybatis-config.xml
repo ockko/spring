@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--
+    패키지를 mapper 파일에서 안 쓰고 싶을 때
+    config 파일에 기본 패키지로 설정하면 됨.
+    mapper 파일에는 클래스명만 쓰면 됨!
+    -->
+    <typeAliases>
+        <package name="org.scoula.board.domain"/>
+    </typeAliases>
+</configuration>
