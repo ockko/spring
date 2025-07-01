@@ -5,6 +5,26 @@
 
 <!-- namespace에는 인터페이스 이름까지 넣어줌. -->
 <mapper namespace="org.scoula.board.mapper.BoardMapper">
+    <resultMap id="attachmentMap" type="org.scoula.board.domain.BoardAttachmentVO">
+        <id column="ano" property="no"/>
+        <result column="bno" property="bno"/>
+        <result column="filename" property="filename"/>
+        <result column="path" property="path"/>
+        <result column="content_type" property="contentType"/>
+        <result column="size" property="size"/>
+        <result column="a_reg_date" property="regDate"/>
+    </resultMap>
+
+    <resultMap id="boardMap" type="org.scoula.board.domain.BoardVO">
+        <id column="no" property="no"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="writer" property="writer"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="update_date" property="updateDate"/>
+        <collection property="attaches" resultMap="attachmentMap"/>
+    </resultMap>
+
     <!-- insert는 대부분 입력값이 vo임. 생략가능 -->
     <!-- insert, update, delete는 무조건 결과는 int임. 생략가능 -->
     <!-- id는 인터페이스의 함수와 동일해야 함수를 호출했을 때, mapper의 sql문이 실행됨. -->
@@ -26,12 +46,20 @@
     </select>
 
     <!-- parameterType="long" 생략가능. 입력값 1개, pk인 경우 -->
-    <select id="get"
-            parameterType="long"
-            resultType="BoardVO">
-        select *
-        from tbl_board
-        where no = #{no};
+    <select id="get" resultMap="boardMap">
+        select b.*,
+               a.no       as ano,
+               a.bno,
+               a.filename,
+               a.path,
+               a.content_type,
+               a.size,
+               a.reg_date as a_reg_date
+        from tbl_board b
+                 left outer join tbl_board_attachment a
+                                 on b.no = a.bno
+        where b.no = #{no}
+        order by filename;
     </select>
 
     <update id="update">
@@ -46,6 +74,30 @@
     <delete id="delete">
         delete
         from tbl_board
+        where no = #{no}
+    </delete>
+
+    <insert id="createAttachment">
+        insert into tbl_board_attachment(filename, path, content_type, size, bno)
+        values (#{filename}, #{path}, #{contentType}, #{size}, #{bno})
+    </insert>
+
+    <select id="getAttachmentList" resultType="BoardAttachmentVO">
+        select *
+        from tbl_board_attachment
+        where bno = #{bno}
+        order by filename
+    </select>
+
+    <select id="getAttachment" resultType="BoardAttachmentVO">
+        select *
+        from tbl_board_attachment
+        where no = #{no}
+    </select>
+
+    <delete id="deleteAttachment">
+        delete
+        from tbl_board_attachment
         where no = #{no}
     </delete>
 </mapper>

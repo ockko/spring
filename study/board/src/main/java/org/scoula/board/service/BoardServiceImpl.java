@@ -2,11 +2,16 @@ package org.scoula.board.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
 import org.scoula.board.dto.BoardDTO;
 import org.scoula.board.mapper.BoardMapper;
+import org.scoula.common.util.UploadFiles;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -16,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
+    private final static String BASE_DIR = "c:/upload/board";
     // 전처리해서 dao의 메서드를 불러서 db 처리해달라고 해야 함.
     private final BoardMapper boardMapper;
 
@@ -35,11 +41,29 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
+    @Transactional
     @Override
     public void create(BoardDTO board) {
         BoardVO vo = board.toVo();
         boardMapper.create(vo);
-        board.setNo(vo.getNo());
+
+        List<MultipartFile> files = board.getFiles();
+        if (files != null && !files.isEmpty()) {
+            upload(vo.getNo(), files);
+        }
+    }
+
+    private void upload(Long bno, List<MultipartFile> files) {
+        for (MultipartFile part : files) {
+            if (part.isEmpty()) continue;
+            try {
+                String uploadPath = UploadFiles.upload(BASE_DIR, part);
+                BoardAttachmentVO attach = BoardAttachmentVO.of(part, bno, uploadPath);
+                boardMapper.createAttachment(attach);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -50,5 +74,15 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public boolean delete(Long no) {
         return boardMapper.delete(no) == 1;
+    }
+
+    @Override
+    public BoardAttachmentVO getAttachment(Long no) {
+        return boardMapper.getAttachment(no);
+    }
+
+    @Override
+    public boolean deleteAttachment(Long no) {
+        return boardMapper.deleteAttachment(no) == 1;
     }
 }
