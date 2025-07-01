@@ -70,12 +70,16 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDTO update(BoardDTO board) {
-        return boardMapper.update(board.toVo()) == 1;
+        boardMapper.update(board.toVo());
+        return get(board.getNo());
     }
 
     @Override
     public BoardDTO delete(Long no) {
-        return boardMapper.delete(no) == 1;
+        // delete 하기 전에 삭제될 번호로 검색해오자.
+        BoardDTO board = get(no);
+        boardMapper.delete(no);
+        return board;
     }
 
     @Override
