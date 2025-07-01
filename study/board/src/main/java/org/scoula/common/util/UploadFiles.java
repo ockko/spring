@@ -34,7 +34,7 @@ public class UploadFiles {
         response.setContentType("application/download");
         response.setContentLength((int) file.length());
         String filename = URLEncoder.encode(orgName, "UTF-8");
-        response.setHeader("Content-disposition", "attachment:filename=\"" + filename + "\"");
+        response.setHeader("Content-disposition", "attachment;filename=\"" + filename + "\"");
         try (OutputStream os = response.getOutputStream();
              BufferedOutputStream bos = new BufferedOutputStream(os)) {
             Files.copy(Paths.get(file.getPath()), bos);
