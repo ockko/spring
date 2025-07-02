@@ -45,4 +45,9 @@ public class BoardController {
     public ResponseEntity<BoardDTO> update(@PathVariable Long no, @RequestBody BoardDTO dto) {
         return ResponseEntity.ok(service.update(dto));
     }
+
+    @DeleteMapping("/{no}")
+    public ResponseEntity<BoardDTO> delete(@PathVariable Long no) {
+        return ResponseEntity.ok(service.delete(no));
+    }
 }
