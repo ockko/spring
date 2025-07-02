@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ApiExceptionAdvice {
 
-    // 404 에러
+    // NoSuchElementException.class가 발생한 경우
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<String> handleIllegalArgumentException(NoSuchElementException e) {
         return ResponseEntity
@@ -26,6 +26,14 @@ public class ApiExceptionAdvice {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .header("Content-Type", "text/plain;charset=UTF-8")
-                .body(e.getMessage());
+                .body("==> " + e.getMessage());
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class) // 404
+    protected ResponseEntity<String> handlerException2(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .header("Content-Type", "text/plain;charset=UTF-8")
+                .body("요청한 주소는 찾을 수 없음.");
     }
 }
