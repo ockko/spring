@@ -1,5 +1,6 @@
 package org.scoula.board.controller;
 
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.scoula.board.dto.BoardDTO;
@@ -14,10 +15,12 @@ import java.util.List;
 @Log4j2
 // @Controller + @ResponseBody
 @RestController // views로 넘어가지 않고 모두 data로 응답하겠다!
+@Api(tags = "게시글 관리")
 public class BoardController {
 
     private final BoardService service; // 생성자 주입
 
+    @ApiOperation(value = "게시글 목록", notes = "게시글 목록을 얻는 API")
     @GetMapping("") // ==> /api/board
     // @ResponseBody // 컨트롤러에서 views로 넘어가지 않고 http의 body에 리턴값을 넣어서 응답해라!
     public ResponseEntity<List<BoardDTO>> getList() {
@@ -29,8 +32,16 @@ public class BoardController {
         return service.get(no);
     }
 
+    @ApiOperation(value = "상세정보 얻기", notes = "게시글 상세 정보를 얻는 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다.", response = BoardDTO.class),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
     @GetMapping("/get/{no}") // ==> /api/board/get/10
-    public BoardDTO get2(@PathVariable Long no) {
+    public BoardDTO get2(
+            @ApiParam(value = "게시글 ID", required = true, example = "1")
+            @PathVariable Long no) {
         return service.get(no);
     }
 
