@@ -62,6 +62,10 @@ dependencies {
     // Jackson - Json 처리
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
 
+    implementation "org.springframework:spring-websocket:${springVersion}"
+    implementation "org.springframework:spring-messaging:${springVersion}"
+    implementation "org.springframework.integration:spring-integration-stomp:5.5.20"
+
     // 테스트
     testImplementation "org.springframework:spring-test:${springVersion}"
     testCompileOnly"org.projectlombok:lombok:${lombokVersion}"
