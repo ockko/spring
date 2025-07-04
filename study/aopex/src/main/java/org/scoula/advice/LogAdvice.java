@@ -1,9 +1,14 @@
 package org.scoula.advice;
 
 import lombok.extern.log4j.Log4j2;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Aspect
 @Log4j2
@@ -23,4 +28,36 @@ public class LogAdvice {
     // 조인포인트가 되는 모든 메서드를 호출해서 실행하기 전에(이벤트라고 인식함.)
     // logBefore() 메서드를 먼저 호출해라! 설정
     // ==> 이벤트가 발생하면 aop 프락시 객체가 logBefore() 메서드를 먼저 호출함.
+    // 스프링에서 사용된 설계 패턴 3가지
+    // 프록시(대리인) 설계 패턴(design pattern)
+    // 싱글톤
+    // 팩토리
+
+    @Before("execution(* org.scoula.sample.service.SampleService*.doAdd(String, String)) && args(str1, str2)")
+    public void logBeforeWithParam(String str1, String str2) {
+        log.info("str1:" + str1);
+        log.info("str2:" + str2);
+    }
+
+    @AfterThrowing(pointcut = "execution(* org.scoula.sample.service.SampleService*.*(..))", throwing = "exception")
+    public void logException(Exception exception) {
+        log.info("Exception...!!!!");
+        log.info("exception: " + exception);
+    }
+
+    @Around("execution(* org.scoula.sample.service.SampleService*.*(..))")
+    public Object logTime(ProceedingJoinPoint pjp) {
+        long start = System.currentTimeMillis();
+        log.info("Target: " + pjp.getTarget());
+        log.info("Param: " + Arrays.toString(pjp.getArgs()));
+        Object result = null;
+        try {
+            result = pjp.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        log.info("Time: " + (end - start));
+        return result;
+    }
 }
